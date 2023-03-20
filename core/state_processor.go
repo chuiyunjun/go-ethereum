@@ -120,6 +120,12 @@ func applyTransaction(msg types.Message, config *params.ChainConfig, author *com
 	} else {
 		receipt.Status = types.ReceiptStatusSuccessful
 	}
+
+	if (evm.ReenterFlag()){
+		fmt.Println("Reentrancy detected: [%v], ", tx.Hash())
+		panic("Reentrancy detected" )
+	}
+
 	receipt.TxHash = tx.Hash()
 	receipt.GasUsed = result.UsedGas
 
